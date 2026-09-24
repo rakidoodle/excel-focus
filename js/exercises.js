@@ -1,0 +1,116 @@
+/* Each exercise has a deterministic reference solution evaluated against its seed dataset. */
+const ExerciseSpecs=`
+Total revenue|SUM|retail|=SUM(Data!G2:G61)|Add all 60 revenue values. Use a range, not separate additions.
+Mean order value|AVERAGE|retail|=AVERAGE(Data!G2:G61)|Find the average revenue per order, including every region.
+Smallest order|MIN|retail|=MIN(Data!G2:G61)|Find the lowest revenue value.
+Largest order|MAX|retail|=MAX(Data!G2:G61)|Find the highest revenue value.
+Count orders|COUNT|retail|=COUNT(Data!G2:G61)|Count the numeric revenue entries.
+Count customers|COUNTA|retail|=COUNTA(Data!I2:I61)|Count customer entries, including repeated customers.
+Round mean revenue|ROUND|retail|=ROUND(AVERAGE(Data!G2:G61),2)|Round the average order revenue to two decimal places.
+East revenue|SUMIF|retail|=SUMIF(Data!B2:B61,"East",Data!G2:G61)|Total revenue for the East region only.
+March revenue|SUMIF|retail|=SUMIF(Data!C2:C61,"March",Data!G2:G61)|Calculate March revenue across all regions.
+East in March|SUMIFS|retail|=SUMIFS(Data!G2:G61,Data!B2:B61,"East",Data!C2:C61,"March")|Calculate East region revenue in March. Both criteria must match.
+Completed East orders|COUNTIFS|retail|=COUNTIFS(Data!B2:B61,"East",Data!K2:K61,"Complete")|Count East orders with Complete status.
+Returned orders|COUNTIF|retail|=COUNTIF(Data!K2:K61,"Returned")|Count the returned orders.
+Mean West revenue|AVERAGEIF|retail|=AVERAGEIF(Data!B2:B61,"West",Data!G2:G61)|Average West order revenue only.
+Completed North mean|AVERAGEIFS|retail|=AVERAGEIFS(Data!G2:G61,Data!B2:B61,"North",Data!K2:K61,"Complete")|Average completed North orders.
+First order revenue|references|retail|=Data!E2*Data!F2|Multiply units by price for the first order.
+First order margin|percentages|retail|=(Data!G2-Data!H2)/Data!G2|Calculate margin as profit divided by revenue, not cost.
+High-value flag|IF|retail|=IF(Data!G2>=100,"High","Standard")|Label the first order High at 100 or above; otherwise Standard.
+Two conditions|AND|retail|=AND(Data!E2>=2,Data!F2<50)|Check whether the first order has at least two units and price below 50.
+Either region|OR|retail|=OR(Data!B2="East",Data!B2="West")|Test whether the first order is East or West.
+Safe division|IFERROR|retail|=IFERROR(Data!G2/0,"Check denominator")|Return Check denominator instead of a division error.
+Order prefix|LEFT|retail|=LEFT(Data!A2,3)|Extract the first three letters of the order ID.
+Order suffix|RIGHT|retail|=RIGHT(Data!A2,4)|Extract the four-digit order number as text.
+Middle of order ID|MID|retail|=MID(Data!A2,5,4)|Extract four characters starting at position five.
+Email length|LEN|retail|=LEN(Data!J2)|Count every character in the first email address.
+Clean customer spaces|TRIM|retail|=TRIM(Data!I2)|Remove leading and trailing spaces and collapse repeated spaces.
+Customer label|CONCAT|retail|=CONCAT(TRIM(Data!I2)," / ",Data!B2)|Join the cleaned customer name and region with a slash separator.
+Join regions|TEXTJOIN|retail|=TEXTJOIN(", ",TRUE,Data!B2:B5)|Combine the first four regions with comma-space separators.
+Find email separator|FIND|retail|=FIND("@",Data!J2)|Find the one-based position of @ in the first email.
+Case-insensitive search|SEARCH|retail|=SEARCH("ARIA",Data!J2)|Find ARIA regardless of case.
+Lookup order revenue|XLOOKUP|retail|=XLOOKUP("ORD-1010",Data!A2:A61,Data!G2:G61)|Return revenue for order ORD-1010 using an exact match.
+Missing order fallback|XLOOKUP|retail|=XLOOKUP("ORD-9999",Data!A2:A61,Data!G2:G61,"Not found")|Return Not found when the requested order is absent.
+Position of order|MATCH|retail|=MATCH("ORD-1010",Data!A2:A61,0)|Find the relative position of ORD-1010 with exact matching.
+Tenth revenue|INDEX|retail|=INDEX(Data!G2:G61,10,1)|Return the tenth entry of the revenue range.
+INDEX with MATCH|INDEX|retail|=INDEX(Data!G2:G61,MATCH("ORD-1010",Data!A2:A61,0),1)|Find order revenue with INDEX and exact MATCH.
+Build a date|DATE|retail|=DATE(2026,3,1)|Construct March 1, 2026 as a date serial.
+Order year|YEAR|retail|=YEAR(Data!L2)|Extract the year of the first order date serial.
+Order month|MONTH|retail|=MONTH(Data!L2)|Extract the month number of the first order.
+Order day|DAY|retail|=DAY(Data!L2)|Extract the day of month of the first order.
+Uppercase region|UPPER|retail|=UPPER(Data!B2)|Convert the first region to uppercase.
+Lowercase email|LOWER|retail|=LOWER(Data!J2)|Normalize the first email to lowercase.
+Customer title case|PROPER|retail|=PROPER(TRIM(Data!I2))|Clean spaces and capitalize each word of the customer name.
+Replace ID prefix|SUBSTITUTE|retail|=SUBSTITUTE(Data!A2,"ORD","SALE")|Replace ORD with SALE in the first ID.
+Median revenue|MEDIAN|retail|=MEDIAN(Data!G2:G61)|Find the middle revenue after ordering all values.
+Third-largest order|LARGE|retail|=LARGE(Data!G2:G61,3)|Return the third-largest order revenue, counting ties.
+Third-smallest order|SMALL|retail|=SMALL(Data!G2:G61,3)|Return the third-smallest order revenue.
+Revenue spread|statistics|retail|=MAX(Data!G2:G61)-MIN(Data!G2:G61)|Calculate the range as maximum minus minimum.
+Total profit|business|retail|=SUM(Data!G2:G61)-SUM(Data!H2:H61)|Subtract total cost from total revenue.
+Weighted total|SUMPRODUCT|retail|=SUMPRODUCT(Data!E2:E61,Data!F2:F61)|Multiply each unit count by its price and add the results.
+Overall margin|business|retail|=(SUM(Data!G2:G61)-SUM(Data!H2:H61))/SUM(Data!G2:G61)|Compute aggregate margin instead of averaging order margins.
+North share|percentages|retail|=SUMIF(Data!B2:B61,"North",Data!G2:G61)/SUM(Data!G2:G61)|Find North revenue as a share of all revenue.
+Actual spending|SUM|budget|=SUM(Data!E2:E37)|Total all actual expense values.
+Planned spending|SUM|budget|=SUM(Data!D2:D37)|Total all planned expense values.
+Budget variance|business|budget|=SUM(Data!D2:D37)-SUM(Data!E2:E37)|Calculate remaining budget as planned minus actual.
+Expense variance|references|budget|=Data!D2-Data!E2|Find the remaining budget for the first expense.
+Over-budget label|IF|budget|=IF(Data!E2>Data!D2,"Over","Within")|Classify the first expense as Over or Within budget.
+Software costs|SUMIF|budget|=SUMIF(Data!B2:B37,"Software",Data!E2:E37)|Total actual software spending.
+Pending expenses|COUNTIF|budget|=COUNTIF(Data!H2:H37,"Pending")|Count unpaid expense entries.
+Design team spending|SUMIF|budget|=SUMIF(Data!G2:G37,"Design",Data!E2:E37)|Total actual spending for the Design team.
+Average travel cost|AVERAGEIF|budget|=AVERAGEIF(Data!B2:B37,"Travel",Data!E2:E37)|Average the actual Travel expenses.
+January paid spending|SUMIFS|budget|=SUMIFS(Data!E2:E37,Data!C2:C37,"January",Data!H2:H37,"Paid")|Total paid January expenses.
+Largest expense|MAX|budget|=MAX(Data!E2:E37)|Find the largest actual expense.
+Smallest budget|MIN|budget|=MIN(Data!D2:D37)|Find the lowest planned expense.
+Budget utilization|percentages|budget|=SUM(Data!E2:E37)/SUM(Data!D2:D37)|Divide actual spending by planned spending.
+Positive variance size|ABS|budget|=ABS(Data!D2-Data!E2)|Return the size of the variance without its sign.
+Round spending up|ROUNDUP|budget|=ROUNDUP(AVERAGE(Data!E2:E37),0)|Round the mean expense upward to whole currency units.
+Total stock|SUM|inventory|=SUM(Data!C2:C49)|Count total units held across products.
+Inventory value|SUMPRODUCT|inventory|=SUMPRODUCT(Data!C2:C49,Data!E2:E49)|Calculate stock times unit price across every product.
+Reorder decision|IF|inventory|=IF(Data!C2<Data!D2,"Reorder","Enough")|Decide whether the first product needs replenishment.
+Low-stock products|COUNTIF|inventory|=COUNTIF(Data!C2:C49,"<20")|Count products with fewer than 20 units.
+North warehouse units|SUMIF|inventory|=SUMIF(Data!F2:F49,"North",Data!C2:C49)|Add stock in the North warehouse.
+Average lead time|AVERAGE|inventory|=AVERAGE(Data!H2:H49)|Find mean supplier lead time in days.
+Slowest supply|MAX|inventory|=MAX(Data!H2:H49)|Find the longest supplier lead time.
+Product price lookup|XLOOKUP|inventory|=XLOOKUP("SKU-110",Data!A2:A49,Data!E2:E49)|Look up the unit price for SKU-110.
+Supplier count|COUNTIF|inventory|=COUNTIF(Data!G2:G49,"Cedar")|Count products supplied by Cedar.
+Pack remainder|MOD|inventory|=MOD(Data!C2,4)|Find leftover units when stock is packed in fours.
+Whole packs|INT|inventory|=INT(Data!C2/4)|Find complete packs of four from the first stock quantity.
+Mean first quiz|AVERAGE|students|=AVERAGE(Data!C2:C41)|Find the cohort average for Quiz 1.
+Learners passing|COUNTIF|students|=COUNTIF(Data!C2:C41,">=70")|Count learners scoring at least 70 on Quiz 1.
+Group A mean|AVERAGEIF|students|=AVERAGEIF(Data!B2:B41,"A",Data!E2:E41)|Find Group A mean project score.
+First learner mean|AVERAGE|students|=AVERAGE(Data!C2:E2)|Average the first learner's three assessment scores.
+Weighted grade|business|students|=Data!C2*0.2+Data!D2*0.3+Data!E2*0.5|Weight Quiz 1 at 20%, Quiz 2 at 30%, and Project at 50%.
+Grade threshold|IF|students|=IF(AVERAGE(Data!C2:E2)>=70,"Pass","Review")|Classify the first learner by a mean of at least 70.
+Highest project score|MAX|students|=MAX(Data!E2:E41)|Find the top project score.
+Median project score|MEDIAN|students|=MEDIAN(Data!E2:E41)|Find the middle project score.
+Open ticket count|COUNTIF|support|=COUNTIF(Data!G2:G51,"Open")|Count tickets still open.
+Mean resolution hours|AVERAGEIF|support|=AVERAGEIF(Data!G2:G51,"Closed",Data!D2:D51)|Average hours for closed tickets only.
+High-priority hours|SUMIF|support|=SUMIF(Data!C2:C51,"High",Data!D2:D51)|Total time on high-priority tickets.
+Email ticket count|COUNTIF|support|=COUNTIF(Data!B2:B51,"Email")|Count tickets received by email.
+Billing satisfaction|AVERAGEIF|support|=AVERAGEIF(Data!E2:E51,"Billing",Data!F2:F51)|Average Billing team ratings.
+Service target|IF|support|=IF(Data!D2<=8,"On target","Late")|Classify the first ticket against an eight-hour target.
+Total campaign spend|SUM|marketing|=SUM(Data!C2:C46)|Total campaign spending across all channels.
+Click-through rate|percentages|marketing|=SUM(Data!E2:E46)/SUM(Data!D2:D46)|Compute weighted click-through rate as clicks divided by impressions.
+Conversion rate|percentages|marketing|=SUM(Data!F2:F46)/SUM(Data!E2:E46)|Calculate conversions as a share of clicks.
+Return on ad spend|business|marketing|=SUM(Data!G2:G46)/SUM(Data!C2:C46)|Compute revenue per currency unit of spend.
+Cost per conversion|business|marketing|=SUM(Data!C2:C46)/SUM(Data!F2:F46)|Divide total spend by total conversions.
+Search channel revenue|SUMIF|marketing|=SUMIF(Data!B2:B46,"Search",Data!G2:G46)|Sum revenue attributed to Search campaigns.
+Unpaid invoice value|business|invoices|=SUM(Data!E2:E41)-SUM(Data!F2:F41)|Calculate billed amount less collected amount.
+Open invoices|COUNTIF|invoices|=COUNTIF(Data!G2:G41,"Open")|Count invoices that remain open.
+Payment term|dates|invoices|=Data!D2-Data!C2|Calculate days between issue and due dates.
+Harbor receivables|SUMIFS|invoices|=SUMIFS(Data!E2:E41,Data!B2:B41,"Harbor",Data!G2:G41,"Open")|Calculate open invoice value for Harbor.
+Collection rate|percentages|invoices|=SUM(Data!F2:F41)/SUM(Data!E2:E41)|Find the proportion of invoiced money collected.
+Total defects|SUM|operations|=SUM(Data!F2:F49)|Count defects across all production jobs.
+Defect rate|percentages|operations|=SUM(Data!F2:F49)/SUM(Data!E2:E49)|Divide total defects by total produced units.
+Hours variance|business|operations|=SUM(Data!D2:D49)-SUM(Data!C2:C49)|Find actual hours above planned hours.
+Assembly output|SUMIF|operations|=SUMIF(Data!B2:B49,"Assembly",Data!E2:E49)|Total Assembly team output.
+Output per hour|business|operations|=SUM(Data!E2:E49)/SUM(Data!D2:D49)|Calculate aggregate production productivity.
+Completed jobs|COUNTIF|operations|=COUNTIF(Data!G2:G49,"Complete")|Count completed production jobs.
+Order of operations|arithmetic|retail|=2+3*4|Calculate two plus three times four without changing precedence.
+Grouped operations|arithmetic|retail|=(2+3)*4|Add two and three before multiplying by four.
+Compound growth|business|retail|=1000*(1+5%)^3|Grow a starting value of 1000 by five percent for three periods.
+Discounted price|percentages|retail|=Data!F2*(1-15%)|Reduce the first unit price by a 15 percent discount.
+`;
+const Exercises=ExerciseSpecs.trim().split('\n').map((line,i)=>{const [title,topic,dataset,solution,instruction]=line.split('|');return {id:'ex-'+String(i+1).padStart(3,'0'),title,topic,dataset,solution,instruction,target:'B3',hint:'Start with =. Source data is on the Data sheet. '+(solution.includes('IF')?'Put text criteria in double quotes.':'Check your first and last row; exclude headers.'),kind:'formula'};});
+function exerciseExpected(ex){if(ex.kind==='state')return null;const w=seedWorkbook(ex.dataset);w.sheets[1].cells.B3={raw:ex.solution};return SheetEngine.calculator(w).get(w.sheets[1],'B3');}

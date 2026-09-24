@@ -1,0 +1,19 @@
+{
+  "name": "excel-focus-academy",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "build": "esbuild lib/formula-entry.js --bundle --minify --format=iife --global-name=FormulaFunctions --outfile=js/vendor/formulas.js",
+    "check": "node scripts/check.cjs",
+    "test": "node --test --test-reporter=spec tests/*.test.cjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@formulajs/formulajs": "4.6.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "esbuild": "0.25.12"
+  }
+}

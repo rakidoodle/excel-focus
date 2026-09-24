@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Learn Excel through focused lessons, realistic projects and a working spreadsheet lab. Your progress stays on your device.">
+<title>Excel Focus Academy — Learn by doing</title>
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main" onclick="event.preventDefault();document.getElementById('main').focus()">Skip to content</a>
+<div id="app" class="app-container">
+<aside id="sidebar" class="sidebar"><a class="brand" href="#home"><img src="assets/mark.svg" width="34" height="34" alt=""><span>Excel Focus<span class="brand-sub">ACADEMY</span></span></a><nav id="sidebarNav" aria-label="Main navigation"></nav><div class="sidebar-footer"><div class="mini-grid" aria-hidden="true"></div><strong>Small steps. Real skills.</strong><p>A few focused minutes<br>can change how you work.</p><span class="small">LOCAL-FIRST LEARNING</span></div></aside>
+<div class="main-shell"><header class="topbar"><div class="topbar-left"><button id="menuToggle" class="icon-button menu-toggle" aria-label="Open navigation" aria-expanded="false"></button><span id="topbarTitle">Your workspace</span></div><div class="topbar-tools"><label class="global-search"><span id="searchIcon"></span><input id="globalSearch" placeholder="Find a lesson or formula" aria-label="Search the academy" autocomplete="off"><kbd>/</kbd></label><button id="themeToggle" class="icon-button" aria-label="Switch color theme"></button><button id="lowEnergyToggle" class="btn btn-quiet compact" aria-pressed="false">Low energy</button></div><div id="searchResults" class="search-results" hidden></div></header>
+<main id="main" tabindex="-1">
+<section class="view" id="view-home" aria-label="Home"></section>
+<section class="view" id="view-dashboard" aria-label="Learning dashboard"></section>
+<section class="view" id="view-curriculum" aria-label="Curriculum"></section>
+<section class="view" id="view-learn" aria-label="Lesson"><div id="learnContent"></div></section>
+<section class="view" id="view-practice" aria-label="Practice"></section>
+<section class="view lab-view" id="view-lab" aria-label="Workbook Lab"><div id="labContent"></div></section>
+<section class="view" id="view-projects" aria-label="Projects"><div id="projectsContent"></div></section>
+<section class="view" id="view-formulas" aria-label="Function reference"><div id="formulasContent"></div></section>
+<section class="view" id="view-shortcuts" aria-label="Keyboard shortcuts"><div id="shortcutsContent"></div></section>
+<section class="view" id="view-errors" aria-label="Excel error reference"></section>
+<section class="view" id="view-progress" aria-label="Learning progress"><div id="progressContent"></div></section>
+<section class="view" id="view-settings" aria-label="Settings"><div id="settingsContent"></div></section>
+<section class="view" id="view-assessment" aria-label="Skill assessment"></section>
+</main><footer class="app-footer"><span>Excel Focus Academy</span><a class="btn btn-sm" href="https://paypal.me/RuffyTrinidad" target="_blank" rel="noopener noreferrer">Feed my Baby</a><span>Independent learning. Not affiliated with Microsoft.</span></footer></div>
+</div>
+<dialog id="appDialog" class="dialog"><div class="dialog-top"><h2 id="dialogTitle"></h2><button class="icon-button" onclick="App.closeDialog()" aria-label="Close dialog">×</button></div><div id="dialogContent"></div></dialog>
+<dialog id="focusOverlay" class="focus-overlay" aria-labelledby="focusLessonTitle"><header><span class="eyebrow">FOCUS SESSION</span><button class="btn" onclick="Focus.exit()">Exit focus</button></header><h1 id="focusLessonTitle"></h1><div id="focusContent"></div><footer><span id="focusProgress"></span><span id="focusTimer" aria-label="Time remaining"></span><button class="btn btn-primary" onclick="Focus.continue()">Complete & continue →</button></footer></dialog>
+<div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
+<script src="js/icons.js"></script><script src="js/store.js"></script><script src="js/curriculum.js"></script><script src="js/formulas.js"></script><script src="js/shortcuts.js"></script><script src="js/projects.js"></script><script src="js/vendor/formulas.js"></script><script src="js/engine.js"></script><script src="js/datasets.js"></script><script src="js/exercises.js"></script><script src="js/academy.js"></script><script src="js/practice-skills.js"></script><script src="js/project-cases.js"></script><script src="js/reference.js"></script><script src="js/quiz.js"></script><script src="js/search.js"></script><script src="js/focus.js"></script><script src="js/lab.js"></script><script src="js/components.js"></script><script src="js/app.js"></script>
+</body></html>

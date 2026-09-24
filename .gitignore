@@ -1,0 +1,25 @@
+# Installed dependencies
+node_modules/
+
+# Generated site and test output
+_site/
+test-results/
+playwright-report/
+blob-report/
+coverage/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and editor/OS files
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
