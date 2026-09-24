@@ -4,7 +4,7 @@ A focused, professional Excel learning website with an interactive workbook lab.
 
 [![Feed my Baby](assets/paypal-support.svg)](https://paypal.me/RuffyTrinidad)
 
-Support Noki through PayPal: [Feed my Baby](https://paypal.me/RuffyTrinidad).
+
 
 ## Run locally
 
@@ -62,3 +62,5 @@ Start with [AGENTS.md](AGENTS.md) for ownership, commands and editing rules. Scr
 Deploy the static application files to an HTTP(S) static host; no backend is required. The GitHub Pages workflow in `.github/workflows/pages.yml` publishes only the runtime site files from `main`. In repository Settings → Pages, select GitHub Actions as the publishing source. Google Fonts is the only external runtime resource; system fonts are the fallback. Progress and workbooks use localStorage, without an account or cross-device sync. A different origin/browser profile creates separate storage. Progress export is a JSON backup; a progress-import interface is not currently provided.
 
 Educational project, free to use and share under its original stated terms. Bundled third-party packages retain their own licenses. This is an independent learning product, not Microsoft Excel.
+
+Support Noki through PayPal: [Feed my Baby](https://paypal.me/RuffyTrinidad).
