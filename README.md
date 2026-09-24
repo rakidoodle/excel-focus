@@ -1,4 +1,4 @@
-# Learn_excel_with_Noki
+# Excel Focus Learning
 
 A focused, professional Excel learning website with an interactive workbook lab. Built with HTML, CSS and vanilla JavaScript; learning records stay in your browser.
 
